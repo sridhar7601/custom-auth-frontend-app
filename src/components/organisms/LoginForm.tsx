@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import FormField from '../molecules/FormField';
 import Button from '../atoms/Button';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +24,9 @@ const LoginForm: React.FC = () => {
     const data = await response.json();
     if (response.ok) {
       console.log('Login successful:', data);
+      localStorage.setItem('token', data.token);
       toast.success('Login successful!');
+      navigate('/home');
 
       // Store the token and handle successful login
     } else {
